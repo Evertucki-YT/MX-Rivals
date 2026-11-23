@@ -1,0 +1,184 @@
+@import "tailwindcss";
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: #000;
+  overflow-x: hidden;
+  font-family: "Trebuchet MS", "Segoe UI", system-ui, sans-serif;
+  user-select: none;
+}
+
+.mx-bg {
+  background: radial-gradient(ellipse at 50% 20%, #1f3b2a 0%, #0b1220 55%, #05070d 100%);
+}
+.mx-stripes {
+  position: absolute;
+  inset: -50%;
+  background: repeating-linear-gradient(
+    115deg,
+    rgba(22, 163, 74, 0.14) 0 80px,
+    rgba(255, 255, 255, 0.08) 80px 160px,
+    rgba(220, 38, 38, 0.14) 160px 240px
+  );
+  animation: mx-slide 14s linear infinite;
+}
+@keyframes mx-slide {
+  to {
+    transform: translateX(240px);
+  }
+}
+.mx-cube {
+  position: absolute;
+  bottom: -80px;
+  opacity: 0.35;
+  border-radius: 6px;
+  animation: mx-float linear infinite;
+  box-shadow: inset -6px -6px 0 rgba(0, 0, 0, 0.25);
+}
+@keyframes mx-float {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  100% {
+    transform: translateY(-115vh) rotate(360deg);
+  }
+}
+.mx-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 0.86;
+  font-family: "Arial Black", Impact, sans-serif;
+  font-weight: 900;
+  transform: rotate(-2deg);
+}
+.mx-logo-mx {
+  font-size: clamp(5rem, 16vw, 9rem);
+  letter-spacing: -0.04em;
+  -webkit-text-stroke: 5px #fff;
+  paint-order: stroke fill;
+  text-shadow: 0 6px 0 #0b1220, 0 12px 0 rgba(0, 0, 0, 0.55), 0 0 40px rgba(255, 255, 255, 0.25);
+}
+.mx-logo-rivals {
+  font-size: clamp(2.6rem, 9vw, 5rem);
+  color: #fff;
+  letter-spacing: 0.08em;
+  -webkit-text-stroke: 3px #0b1220;
+  paint-order: stroke fill;
+  text-shadow: 0 4px 0 #dc2626, 0 8px 0 #0b1220, 0 0 30px rgba(220, 38, 38, 0.5);
+}
+.mx-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  border-radius: 1rem;
+  padding: 1rem 1.25rem;
+  font-size: 1.15rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  color: #fff;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.4), 0 10px 24px rgba(0, 0, 0, 0.35);
+  transition: transform 0.08s, filter 0.15s;
+  cursor: pointer;
+}
+.mx-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}
+.mx-btn:active:not(:disabled) {
+  transform: translateY(3px);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.4);
+}
+.mx-btn:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+/* ---- HUD ---- */
+@keyframes mx-hit {
+  0% {
+    transform: translate(-50%, -50%) scale(1.8);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0;
+  }
+}
+.mx-hitmarker {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  pointer-events: none;
+  animation: mx-hit 0.38s ease-out forwards;
+  filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.9));
+}
+@keyframes mx-hurt {
+  0% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.mx-hurt {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, rgba(220, 38, 38, 0) 40%, rgba(220, 38, 38, 0.75) 100%);
+  animation: mx-hurt 0.6s ease-out forwards;
+}
+@keyframes mx-pop {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.mx-pop {
+  animation: mx-pop 0.45s ease-out both;
+}
+@keyframes mx-kf {
+  0% {
+    transform: translateX(40px);
+    opacity: 0;
+  }
+  10% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.mx-kf {
+  animation: mx-kf 5s ease-out forwards;
+}
+@keyframes mx-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.mx-spin {
+  animation: mx-spin 0.9s linear infinite;
+}
+.mx-card {
+  transition: transform 0.12s, box-shadow 0.15s, border-color 0.15s;
+  cursor: pointer;
+}
+.mx-card:hover {
+  transform: translateY(-4px) scale(1.02);
+}
