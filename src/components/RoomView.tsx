@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Net } from "@/game/net";
+import { Net, p2p } from "@/game/net";
 import type { Game, GameCallbacks, HudState } from "@/game/engine";
 import { DEFAULT_LOADOUT, MAPS, ROUNDS_TO_WIN, TEAM_COLORS, TEAM_NAMES, type Loadout, type NetPlayer, type Snapshot } from "@/game/shared";
 import { initAudio, sfx } from "@/game/audio";
@@ -9,12 +9,8 @@ import { Hud, LoadoutPanel, type FeedItem } from "./GameUi";
 import type { Session } from "./Menu";
 
 async function roomApi(body: Record<string, unknown>) {
-  try {
-    const r = await fetch("/api/rooms", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
-    return (await r.json()) as { error?: string };
-  } catch {
-    return { error: "Error de conexión" };
-  }
+  p2p.handleAction(String(body.action || ""), String(body.id || ""));
+  return {};
 }
 
 function GameView({ net, cbs, onReady }: { net: Net; cbs: GameCallbacks; onReady: (g: Game | null) => void }) {
