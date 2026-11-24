@@ -27,20 +27,11 @@ declare global {
   }
 }
 
-let peerLoader: Promise<new (id?: string) => PeerInstance> | null = null;
-function loadPeerJS(): Promise<new (id?: string) => PeerInstance> {
-  if (typeof window !== "undefined" && window.Peer) return Promise.resolve(window.Peer);
-  if (peerLoader) return peerLoader;
-  peerLoader = new Promise((resolve, reject) => {
-    const s = document.createElement("script");
-    s.src = "https://unpkg.com";
-    s.async = true;
-    s.onload = () => (window.Peer ? resolve(window.Peer) : reject(new Error("Error PeerJS")));
-    s.onerror = () => reject(new Error("Sin red PeerJS"));
-    document.head.appendChild(s);
-  });
-  return peerLoader;
+async function loadPeerJS(): Promise<new (id?: string) => PeerInstance> {
+  const mod = await import("peerjs");
+  return (mod.Peer ?? mod.default) as unknown as new (id?: string) => PeerInstance;
 }
+
 
 interface HostRoom {
   code: string;
